@@ -1,0 +1,36 @@
+{
+  "development": {
+    "fastify": {
+      "logger": {
+        "prettyPrint": true
+      }
+    },
+    "jwt": {
+      "secret": "b6d8a00f8f0c03930b8b7b4175a5f9f9",
+      "expiresIn": "7d"
+    },
+    "yup": {
+      "strict": false,
+      "abortEarly": false,
+      "stripUnknown": true,
+      "recursive": true
+    },
+    "knex": {
+      "client": "sqlite3",
+      "useNullAsDefault": true,
+      "connection": {
+        "filename": "./database/api.sqlite"
+      }
+    }
+  },
+  "test": {
+    "fastify": {},
+    "jwt": {},
+    "knex": {}
+  },
+  "production": {
+    "fastify": {},
+    "jwt": {},
+    "knex": {}
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "fastify-objection-jwt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "db:migrate": "npx knex migrate:latest",
+    "db:seed": "npx knex seed:run",
+    "db:delete": "node ./database/delete.js",
+    "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "fastify": "^2.12.1",
+    "fastify-jwt": "^1.2.1",
+    "fastify-objectionjs": "^0.2.0",
+    "fastify-plugin": "^1.6.1",
+    "knex": "^0.20.10",
+    "objection": "^2.1.3",
+    "pino-pretty": "^3.6.1",
+    "sqlite3": "^4.1.1",
+    "yup": "^0.28.1"
+  }
+}
