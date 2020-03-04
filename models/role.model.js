@@ -20,13 +20,7 @@ class Role extends Model {
             }
         }
     }
-    $beforeInsert() {
-        this.createdAt = this.updatedAt = new Date().toISOString()
-    }
 
-    $beforeUpdate() {
-        this.updatedAt = new Date().toISOString()
-    }
     static get relationMappings() {
         const User = require('./user.model')
         return {

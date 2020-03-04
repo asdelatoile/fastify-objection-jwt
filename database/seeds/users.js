@@ -8,14 +8,21 @@ exports.seed = async function (knex) {
   await knex('users').insert([
     {
       id: 1,
-      email: 'admin@test.com',
+      email: 'guest@test.com',
       password: hash,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     },
     {
       id: 2,
-      email: 'test@test.com',
+      email: 'admin@test.com',
+      password: hash,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    },
+    {
+      id: 3,
+      email: 'superadmin@test.com',
       password: hash,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
@@ -23,8 +30,7 @@ exports.seed = async function (knex) {
   ]);
   await knex('users_roles').insert([
     { userId: 1, roleId: 1 },
-    { userId: 1, roleId: 2 },
-    { userId: 1, roleId: 3 },
-    { userId: 2, roleId: 1 }
+    { userId: 2, roleId: 2 },
+    { userId: 3, roleId: 3 }
   ]);
 };

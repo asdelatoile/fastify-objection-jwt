@@ -11,7 +11,9 @@ fastify.register(require('./plugins/permissions'))
 
 fastify.register(require('./services/users'))
 
-fastify.register(require('./controllers/publicController'))
+
+fastify.register(require('./controllers/AuthController'), { prefix: 'api/auth' })
+fastify.register(require('./controllers/UserController'), { prefix: 'api/users' })
 
 
 fastify.listen(3000, function (err) {

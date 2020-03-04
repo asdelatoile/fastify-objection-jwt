@@ -20,7 +20,7 @@ module.exports = function (fastify, opts, done) {
     fastify.route({
         method: 'GET',
         url: '/me',
-        preValidation: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions(['guest', 'superadmin', 'admin'])],
+        preHandler: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions(['guest', 'superadmin', 'admin'])],
         handler: function (request, reply) {
             reply.code(200).send({ "user": request.user })
         }
@@ -33,7 +33,15 @@ module.exports = function (fastify, opts, done) {
             body: fastify.yup.object({
                 email: fastify.yup.string().email().required(),
                 password: fastify.yup.string().required()
-            })
+            }),
+            response: {
+                200: {
+                    type: 'object',
+                    properties: {
+                        token: { type: 'string' }
+                    }
+                }
+            }
         },
         schemaCompiler: fastify.yupSchemaCompiler,
         handler: async function (request, reply) {
@@ -48,15 +56,7 @@ module.exports = function (fastify, opts, done) {
             }
             const { id, name, roles } = user;
             const token = await fastify.generateToken({ id });
-            return reply.send({
-                user: {
-                    id,
-                    name,
-                    email,
-                    roles
-                },
-                token
-            });
+            return reply.send({ token });
         }
     });
 
@@ -67,7 +67,15 @@ module.exports = function (fastify, opts, done) {
             body: fastify.yup.object({
                 email: fastify.yup.string().email().required(),
                 password: fastify.yup.string().required()
-            })
+            }),
+            response: {
+                201: {
+                    type: 'object',
+                    properties: {
+                        token: { type: 'string' }
+                    }
+                }
+            }
         },
         schemaCompiler: fastify.yupSchemaCompiler,
         handler: async function (request, reply) {
@@ -77,7 +85,8 @@ module.exports = function (fastify, opts, done) {
                 reply.code(400).send({ error: 'User alredy exists' })
             }
             const user = await fastify.userService.createUser(body);
-            reply.code(201).send(user)
+            const token = await fastify.generateToken({ id: user.id });
+            reply.code(201).send({ token })
         }
     })
 

@@ -1,5 +1,5 @@
 const { Model } = require('objection')
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs')
 
 class User extends Model {
 

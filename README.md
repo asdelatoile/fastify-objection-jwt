@@ -26,8 +26,9 @@ $ npm run dev
 ```
 
 Users
+email : superadmin@test.com / password : demo
 email : admin@test.com / password : demo
-email : test@test.com / password : demo
+email : guest@test.com / password : demo
 
 ## Commands
 
@@ -65,14 +66,17 @@ $ npm run db:reset
 
 ```
 [GET] (test route)
-http://localhost:3000/
+http://localhost:3000/api/auth/test
 
 [POST] (email,password)
-http://localhost:3000/register
+http://localhost:3000/api/auth/register
 
 [POST] (email,password)
-http://localhost:3000/login
+http://localhost:3000/api/auth/login
 
-[GET] (token header)
-http://localhost:3000/me
+[GET] (token header, auth)
+http://localhost:3000/api/auth/me
+
+[GET] (token header, superadmin auth)
+http://localhost:3000/api/users
 ```
