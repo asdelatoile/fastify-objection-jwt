@@ -79,4 +79,16 @@ http://localhost:3000/api/auth/me
 
 [GET] (token header, superadmin auth)
 http://localhost:3000/api/users
+
+[GET] (token header, superadmin auth)
+http://localhost:3000/api/users/:id
+
+[POST] (token header, superadmin auth)
+http://localhost:3000/api/users
+
+[PATCH] (token header, superadmin auth)
+http://localhost:3000/api/users/:id
+
+[DELETE] (token header, superadmin auth)
+http://localhost:3000/api/users/:id
 ```

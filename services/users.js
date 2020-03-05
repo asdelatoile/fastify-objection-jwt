@@ -38,8 +38,17 @@ module.exports = fp(async function (fastify, opts) {
             {
                 relate: true
             });
+    }
 
-        // return await User.query().insert(payload)
+    const updateUser = async function (id, payload) {
+        const { User } = fastify.objection
+        return await User.query()
+            .patchAndFetchById(id, payload).debug();
+    }
+
+    const deleteUserById = async function (id) {
+        const { User } = fastify.objection
+        return await User.query().deleteById(id);
     }
 
     const checkPassword = async function (user, password) {
@@ -52,9 +61,9 @@ module.exports = fp(async function (fastify, opts) {
         getUserByEmailWithRoles,
         getUserByIdWithRoles,
         checkPassword,
-        createUser
+        createUser,
+        deleteUserById,
+        updateUser
     })
-
-
 
 })
