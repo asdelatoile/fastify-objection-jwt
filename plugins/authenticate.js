@@ -5,9 +5,9 @@ module.exports = fp(async function (fastify, opts) {
 
     fastify.decorate("retrieveToken", async function (request, reply) {
         try {
-            await request.jwtVerify()
+            return await request.jwtVerify()
         } catch (err) {
-            reply.send(err)
+            return reply.send(err)
         }
     })
 
@@ -23,11 +23,11 @@ module.exports = fp(async function (fastify, opts) {
                 .withGraphJoined('[roles]')
                 .findById(request.user.id)
             if (!user) {
-                reply.code(404).send({ error: 'User not found' })
+                return reply.code(404).send({ error: 'User not found' })
             }
             request.user = user
         } catch (err) {
-            reply.send(err)
+            return reply.send(err)
         }
     })
 

@@ -7,7 +7,7 @@ module.exports = function (fastify, opts, done) {
         preHandler: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions(['superadmin'])],
         handler: async function (request, reply) {
             const users = await fastify.userService.getUsersWithRoles();
-            reply.code(200).send(users)
+            return reply.code(200).send(users)
         }
     })
 
@@ -19,8 +19,8 @@ module.exports = function (fastify, opts, done) {
         handler: async function (request, reply) {
             const { id } = request.params
             const user = await fastify.userService.getUserByIdWithRoles(id);
-            if (!user) reply.code(404).send({ error: 'User not found' })
-            reply.code(200).send({ user })
+            if (!user) return reply.code(404).send({ error: 'User not found' })
+            return reply.code(200).send({ user })
         }
     })
 
@@ -33,10 +33,10 @@ module.exports = function (fastify, opts, done) {
             const { body } = request;
             const checkUser = await fastify.userService.getUserByEmailWithRoles(body.email);
             if (checkUser) {
-                reply.code(400).send({ error: 'User alredy exists' })
+                return reply.code(400).send({ error: 'User alredy exists' })
             }
             const user = await fastify.userService.createUser(body);
-            reply.code(201).send({ user })
+            return reply.code(201).send({ user })
         }
     })
 
@@ -51,7 +51,7 @@ module.exports = function (fastify, opts, done) {
             console.log(id, body)
             const user = await fastify.userService.updateUser(id, body);
             if (!user) reply.code(404).send({ error: 'User not found' })
-            reply.code(200).send({ user })
+            return reply.code(200).send({ user })
         }
     })
 
@@ -63,7 +63,7 @@ module.exports = function (fastify, opts, done) {
         handler: async function (request, reply) {
             const { id } = request.params
             const user = await fastify.userService.deleteUserById(id);
-            reply.code(200).send({ message: "success" })
+            return reply.code(200).send({ message: "success" })
         }
     })
 

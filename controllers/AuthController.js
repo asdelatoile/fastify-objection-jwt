@@ -8,7 +8,7 @@ module.exports = function (fastify, opts, done) {
             const users = await User.query()
                 .withGraphJoined('[roles]')
             const roles = await Role.query().withGraphFetched('users');
-            reply.code(200).send({
+            return reply.code(200).send({
                 data: {
                     users,
                     roles
@@ -22,7 +22,7 @@ module.exports = function (fastify, opts, done) {
         url: '/me',
         preHandler: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions(['guest', 'superadmin', 'admin'])],
         handler: function (request, reply) {
-            reply.code(200).send({ "user": request.user })
+            return reply.code(200).send({ "user": request.user })
         }
     })
 
@@ -82,11 +82,11 @@ module.exports = function (fastify, opts, done) {
             const { body } = request;
             const checkUser = await fastify.userService.getUserByEmailWithRoles(body.email);
             if (checkUser) {
-                reply.code(400).send({ error: 'User alredy exists' })
+                return reply.code(400).send({ error: 'User alredy exists' })
             }
             const user = await fastify.userService.createUser(body);
             const token = await fastify.generateToken({ id: user.id });
-            reply.code(201).send({ token })
+            return reply.code(201).send({ token })
         }
     })
 

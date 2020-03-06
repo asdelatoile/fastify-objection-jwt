@@ -3,6 +3,11 @@ const config = require(__dirname + '/config/config.json')[env];
 const fastify = require('fastify')(config.fastify)
 
 
+
+
+
+fastify.register(require('./plugins/errors'))
+
 fastify.register(require('./plugins/objectionjs'), config.knex)
 fastify.register(require('./plugins/yup'), config.yup)
 
