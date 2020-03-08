@@ -4,26 +4,34 @@ const fp = require('fastify-plugin')
 function errors(fastify, options, next) {
 
     fastify.setErrorHandler((error, request, reply) => {
+
+        // Debug
         console.log(JSON.stringify(error));
-        let errorOutput;
-        errorOutput.statusCode = error.code;
+
+        let errorOutput = {
+            statusCode: error && error.code ? error.code : 500
+        };
 
         if (error.name === 'ValidationError') {
-            errorOutput = {
+            Object.assign(errorOutput, {
                 statusCode: 400,
-                error: "ValidationError",
-                message: "Bad Request"
-            }
+                error: "BadRequest",
+                message: fastify.i18n.__('badrequest')
+            });
+
             if (error.inner) {
-                errorOutput.details = error.inner
+                Object.assign(errorOutput, {
+                    details: error.inner
+                })
             }
+
         }
         if (error.name === 'UnauthorizedError') {
-            errorOutput = {
+            Object.assign(errorOutput, {
                 statusCode: 401,
                 error: 'Unauthorized',
-                message: 'Unauthorized'
-            }
+                message: fastify.i18n.__('unauthorized')
+            })
         }
         return reply.status(errorOutput.statusCode).send(errorOutput)
     })

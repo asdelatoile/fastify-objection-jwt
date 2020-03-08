@@ -1,0 +1,9 @@
+{
+  "usernotfound": "Utilisateur inexistant",
+  "useralredyexist": "Utilisateur déjà existant",
+  "success": "Succès",
+  "wrongemailorpassword": "Mauvais email ou mot de passe",
+  "badrequest": "Mauvaise requête",
+  "unauthorized": "Non autorisé",
+  "youdonthavepermission": "Vous n'avez pas les permissions"
+}

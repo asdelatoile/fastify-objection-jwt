@@ -1,6 +1,7 @@
 # fastify/objection/jwt
 
-My first project with [fastify](https://www.fastify.io/)
+My first project with [fastify](https://www.fastify.io/).
+Authentication, permissions, objectionjs, yup, i18n
 
 ## Table of Contents
 

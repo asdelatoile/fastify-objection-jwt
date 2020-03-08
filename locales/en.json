@@ -1,0 +1,9 @@
+{
+  "usernotfound": "User not found",
+  "useralredyexist": "User alredy exist",
+  "success": "Success",
+  "wrongemailorpassword": "Wrong email or password",
+  "badrequest": "Bad Request",
+  "unauthorized": "Unauthorized",
+  "youdonthavepermission": "You don't have permission"
+}

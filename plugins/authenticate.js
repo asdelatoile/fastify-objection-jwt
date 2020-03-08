@@ -23,7 +23,7 @@ module.exports = fp(async function (fastify, opts) {
                 .withGraphJoined('[roles]')
                 .findById(request.user.id)
             if (!user) {
-                return reply.code(404).send({ error: 'User not found' })
+                return reply.code(404).send({ error: fastify.i18n.__('usernotfound') })
             }
             request.user = user
         } catch (err) {

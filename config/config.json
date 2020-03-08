@@ -21,6 +21,11 @@
       "connection": {
         "filename": "./database/api.sqlite"
       }
+    },
+    "i18n": {
+      "locales": ["fr", "en"],
+      "defaultLocale": "fr",
+      "directory": "./locales"
     }
   },
   "test": {

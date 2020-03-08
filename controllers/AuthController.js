@@ -3,6 +3,7 @@ module.exports = function (fastify, opts, done) {
     fastify.route({
         method: 'GET',
         url: '/test',
+        preHandler: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions('superadmin')],
         handler: async function (request, reply) {
             const { User, Role } = fastify.objection
             const users = await User.query()
@@ -22,7 +23,7 @@ module.exports = function (fastify, opts, done) {
         url: '/me',
         preHandler: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions(['guest', 'superadmin', 'admin'])],
         handler: function (request, reply) {
-            return reply.code(200).send({ "user": request.user })
+            return reply.code(200).send({ "data": request.user })
         }
     })
 
@@ -48,11 +49,11 @@ module.exports = function (fastify, opts, done) {
             const { email, password } = request.body;
             const user = await fastify.userService.getUserByEmailWithRoles(email);
             if (!user) {
-                return reply.status(401).send({ error: 'Wrong email or password' });
+                return reply.status(401).send({ error: fastify.i18n.__('wrongemailorpassword') });
             }
             const authorize = await fastify.userService.checkPassword(user, password);
             if (!authorize) {
-                return reply.status(401).send({ error: 'Wrong email or password' });
+                return reply.status(401).send({ error: fastify.i18n.__('wrongemailorpassword') });
             }
             const { id, name, roles } = user;
             const token = await fastify.generateToken({ id });
@@ -82,7 +83,7 @@ module.exports = function (fastify, opts, done) {
             const { body } = request;
             const checkUser = await fastify.userService.getUserByEmailWithRoles(body.email);
             if (checkUser) {
-                return reply.code(400).send({ error: 'User alredy exists' })
+                return reply.code(400).send({ error: fastify.i18n.__('useralredyexist') })
             }
             const user = await fastify.userService.createUser(body);
             const token = await fastify.generateToken({ id: user.id });

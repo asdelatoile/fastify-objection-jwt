@@ -19,7 +19,7 @@ module.exports = function (fastify, opts, done) {
         handler: async function (request, reply) {
             const { id } = request.params
             const user = await fastify.userService.getUserByIdWithRoles(id);
-            if (!user) return reply.code(404).send({ error: 'User not found' })
+            if (!user) return reply.code(404).send({ error: fastify.i18n.__('usernotfound') })
             return reply.code(200).send({ user })
         }
     })
@@ -33,7 +33,7 @@ module.exports = function (fastify, opts, done) {
             const { body } = request;
             const checkUser = await fastify.userService.getUserByEmailWithRoles(body.email);
             if (checkUser) {
-                return reply.code(400).send({ error: 'User alredy exists' })
+                return reply.code(400).send({ error: fastify.i18n.__('useralredyexist') })
             }
             const user = await fastify.userService.createUser(body);
             return reply.code(201).send({ user })
@@ -50,7 +50,7 @@ module.exports = function (fastify, opts, done) {
             const { body } = request
             console.log(id, body)
             const user = await fastify.userService.updateUser(id, body);
-            if (!user) reply.code(404).send({ error: 'User not found' })
+            if (!user) reply.code(404).send({ error: fastify.i18n.__('usernotfound') })
             return reply.code(200).send({ user })
         }
     })
@@ -63,7 +63,7 @@ module.exports = function (fastify, opts, done) {
         handler: async function (request, reply) {
             const { id } = request.params
             const user = await fastify.userService.deleteUserById(id);
-            return reply.code(200).send({ message: "success" })
+            return reply.code(200).send({ message: fastify.i18n.__('success') })
         }
     })
 
