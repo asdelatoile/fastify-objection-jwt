@@ -7,13 +7,15 @@
     },
     "jwt": {
       "secret": "b6d8a00f8f0c03930b8b7b4175a5f9f9",
-      "expiresIn": "7d"
+      "sign": {
+        "expiresIn": "10d"
+      },
+      "verify": {
+        "maxAge": "10d"
+      }
     },
     "yup": {
-      "strict": false,
-      "abortEarly": false,
-      "stripUnknown": true,
-      "recursive": true
+      "abortEarly": false
     },
     "knex": {
       "client": "sqlite3",

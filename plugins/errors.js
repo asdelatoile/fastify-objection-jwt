@@ -1,39 +1,62 @@
 'use strict'
 const fp = require('fastify-plugin')
+const createError = require('http-errors')
+
+
 
 function errors(fastify, options, next) {
+
+    fastify.decorate('createError', createError)
 
     fastify.setErrorHandler((error, request, reply) => {
 
         // Debug
-        console.log(JSON.stringify(error));
+        // console.log(JSON.stringify(error));
 
         let errorOutput = {
-            statusCode: error && error.code ? error.code : 500
-        };
+            code: 500,
+            name: error.name,
+            message: error.message
+        }
 
-        if (error.name === 'ValidationError') {
-            Object.assign(errorOutput, {
-                statusCode: 400,
-                error: "BadRequest",
-                message: fastify.i18n.__('badrequest')
-            });
-
-            if (error.inner) {
+        switch (error.name) {
+            case 'BadRequestError':
                 Object.assign(errorOutput, {
-                    details: error.inner
+                    code: 401,
+                    message: error.message.message || error.message,
+                    errors: error.message.errors
                 })
-            }
+                break;
+            case 'UnprocessableEntityError':
+                Object.assign(errorOutput, {
+                    code: 422,
+                    message: error.message.message || error.message
+                })
+                break;
+            case 'NotFoundError':
+                Object.assign(errorOutput, {
+                    code: 404,
+                    message: error.message.message || error.message
+                })
+                break;
+            case 'UnauthorizedError':
+                Object.assign(errorOutput, {
+                    code: 401,
+                    message: error.message.message || error.message
+                })
+                break;
+            case 'MethodNotAllowedError':
+                Object.assign(errorOutput, {
+                    code: 405,
+                    message: error.message.message || error.message
+                })
+                break;
 
+            default:
         }
-        if (error.name === 'UnauthorizedError') {
-            Object.assign(errorOutput, {
-                statusCode: 401,
-                error: 'Unauthorized',
-                message: fastify.i18n.__('unauthorized')
-            })
-        }
-        return reply.status(errorOutput.statusCode).send(errorOutput)
+
+        return reply.status(errorOutput.code).send(errorOutput)
+
     })
 
     next()

@@ -2,9 +2,6 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/config/config.json')[env];
 const fastify = require('fastify')(config.fastify)
 
-
-
-
 // Errors handler
 fastify.register(require('./plugins/errors'))
 
@@ -29,7 +26,7 @@ fastify.register(require('./controllers/AuthController'), { prefix: 'api/auth' }
 fastify.register(require('./controllers/UserController'), { prefix: 'api/users' })
 
 // Server
-fastify.listen(3000, function (err) {
+fastify.listen(3030, function (err) {
     if (err) {
         fastify.log.error(err)
         process.exit(1)

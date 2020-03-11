@@ -7,8 +7,11 @@ module.exports = fp(async function (fastify, opts) {
             const result = schema.validateSync(data, yupOptions)
             return { value: result }
         } catch (e) {
-            e.message = e.errors
-            return { error: e }
+            let errors = {};
+            e.inner.map(err => {
+                errors[err.path] = err.message;
+            });
+            return { error: fastify.createError.BadRequest({ message: fastify.i18n.__('badrequest'), errors: errors }) }
         }
     }
 

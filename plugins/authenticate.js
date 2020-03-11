@@ -1,15 +1,20 @@
 const fp = require("fastify-plugin")
 
+
 module.exports = fp(async function (fastify, opts) {
     fastify.register(require("fastify-jwt"), opts)
 
+
     fastify.decorate("retrieveToken", async function (request, reply) {
+        console.log("retrieve")
         try {
-            return await request.jwtVerify()
+            await request.jwtVerify()
         } catch (err) {
-            return reply.send(err)
+            throw fastify.createError.Unauthorized({ message: fastify.i18n.__('tokenproblem') })
         }
     })
+
+
 
     fastify.decorate("generateToken", async function (options) {
         const token = await fastify.jwt.sign(options);
@@ -23,7 +28,7 @@ module.exports = fp(async function (fastify, opts) {
                 .withGraphJoined('[roles]')
                 .findById(request.user.id)
             if (!user) {
-                return reply.code(404).send({ error: fastify.i18n.__('usernotfound') })
+                throw fastify.createError.NotFound({ message: fastify.i18n.__('usernotfound') })
             }
             request.user = user
         } catch (err) {

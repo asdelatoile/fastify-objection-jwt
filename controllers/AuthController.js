@@ -6,8 +6,7 @@ module.exports = function (fastify, opts, done) {
         preHandler: [fastify.retrieveToken, fastify.retrieveUser, fastify.permissions('superadmin')],
         handler: async function (request, reply) {
             const { User, Role } = fastify.objection
-            const users = await User.query()
-                .withGraphJoined('[roles]')
+            const users = await User.query().withGraphJoined('[roles]')
             const roles = await Role.query().withGraphFetched('users');
             return reply.code(200).send({
                 data: {
@@ -49,11 +48,11 @@ module.exports = function (fastify, opts, done) {
             const { email, password } = request.body;
             const user = await fastify.userService.getUserByEmailWithRoles(email);
             if (!user) {
-                return reply.status(401).send({ error: fastify.i18n.__('wrongemailorpassword') });
+                throw fastify.createError.Unauthorized({ message: fastify.i18n.__('wrongemailorpassword') })
             }
             const authorize = await fastify.userService.checkPassword(user, password);
             if (!authorize) {
-                return reply.status(401).send({ error: fastify.i18n.__('wrongemailorpassword') });
+                throw fastify.createError.Unauthorized({ message: fastify.i18n.__('wrongemailorpassword') })
             }
             const { id, name, roles } = user;
             const token = await fastify.generateToken({ id });
@@ -83,7 +82,7 @@ module.exports = function (fastify, opts, done) {
             const { body } = request;
             const checkUser = await fastify.userService.getUserByEmailWithRoles(body.email);
             if (checkUser) {
-                return reply.code(400).send({ error: fastify.i18n.__('useralredyexist') })
+                throw fastify.createError.UnprocessableEntity({ message: fastify.i18n.__('useralredyexist') })
             }
             const user = await fastify.userService.createUser(body);
             const token = await fastify.generateToken({ id: user.id });
