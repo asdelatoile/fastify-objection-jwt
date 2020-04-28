@@ -1,2 +1,3 @@
 node_modules/
 database/api.sqlite
+package-lock.json

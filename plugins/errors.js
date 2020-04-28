@@ -22,7 +22,7 @@ function errors(fastify, options, next) {
         switch (error.name) {
             case 'BadRequestError':
                 Object.assign(errorOutput, {
-                    code: 401,
+                    code: 400,
                     message: error.message.message || error.message,
                     errors: error.message.errors
                 })
