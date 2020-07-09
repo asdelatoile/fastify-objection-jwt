@@ -43,7 +43,7 @@ module.exports = function (fastify, opts, done) {
                 }
             }
         },
-        schemaCompiler: fastify.yupSchemaCompiler,
+        validatorCompiler: fastify.yupSchemaCompiler,
         handler: async function (request, reply) {
             const { email, password } = request.body;
             const user = await fastify.userService.getUserByEmailWithRoles(email);
@@ -77,7 +77,7 @@ module.exports = function (fastify, opts, done) {
                 }
             }
         },
-        schemaCompiler: fastify.yupSchemaCompiler,
+        validatorCompiler: fastify.yupSchemaCompiler,
         handler: async function (request, reply) {
             const { body } = request;
             const checkUser = await fastify.userService.getUserByEmailWithRoles(body.email);
