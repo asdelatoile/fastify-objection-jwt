@@ -17,7 +17,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "fastify": "^3.0.0",
-    "fastify-jwt": "^2.1.2",
+    "fastify-jwt": "^4.2.0",
     "fastify-objectionjs": "^0.2.2",
     "fastify-plugin": "^2.0.0",
     "http-errors": "^1.8.0",
