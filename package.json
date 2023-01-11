@@ -22,7 +22,7 @@
     "fastify-plugin": "^2.0.0",
     "http-errors": "^1.8.0",
     "i18n": "^0.10.0",
-    "knex": "^0.21.1",
+    "knex": "^2.4.0",
     "objection": "^2.2.1",
     "pino-pretty": "^4.0.0",
     "sqlite3": "^5.0.0",
